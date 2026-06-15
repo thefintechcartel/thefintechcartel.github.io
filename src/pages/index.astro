@@ -1,0 +1,290 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const recent = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<Base title="Home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">The Fintech Cartel</div>
+    <h1>Where <span class="accent">Finance</span><br />meets the<br />Future.</h1>
+    <p class="hero-sub">
+      Sharp takes on markets, technology, and the systems quietly reshaping money — from two students who actually read the footnotes.
+    </p>
+    <div class="hero-actions">
+      <a href="/blog" class="btn-primary">Read the Blog</a>
+      <a href="/videos" class="btn-ghost">Watch Videos</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Writers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Hot Takes</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Paywalls</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECENT POSTS -->
+  {recent.length > 0 && (
+    <section class="recent">
+      <div class="section-head">
+        <div class="eyebrow">Latest</div>
+        <a href="/blog" class="see-all">All posts →</a>
+      </div>
+      <div class="post-grid">
+        {recent.map(post => (
+          <a href={`/blog/${post.id}`} class="post-card">
+            <span class:list={['tag', post.data.category === 'Finance' ? 'tag-finance' : 'tag-tech']}>
+              {post.data.category}
+            </span>
+            <h3>{post.data.title}</h3>
+            <p>{post.data.description}</p>
+            <div class="card-footer">
+              <span class="card-author">{post.data.author}</span>
+              <span class="card-arrow">→</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- ABOUT STRIP -->
+  <section class="about-strip">
+    <div class="about-inner">
+      <div>
+        <div class="eyebrow">Who We Are</div>
+        <h2>Two students.<br />One obsession.</h2>
+        <p>
+          Adyaan breaks down markets, policies, and why your money does what it does.
+          We cover the tech stacks, startups, and systems that make modern finance run.
+          No jargon for its own sake. No hype.
+        </p>
+      </div>
+      <div class="team-cards">
+        <div class="team-card">
+          <div class="avatar">A</div>
+          <div>
+            <div class="member-name">Adyaan</div>
+            <div class="member-role">Finance</div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="avatar" style="background: linear-gradient(135deg, #2563eb, #60a5fa);">Y</div>
+          <div>
+            <div class="member-name">You</div><!-- swap with your name -->
+            <div class="member-role">Tech</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  /* HERO */
+  .hero {
+    min-height: calc(100vh - 64px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 5% 60px;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+
+  h1 {
+    font-size: clamp(44px, 8vw, 100px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.0;
+    max-width: 860px;
+    margin-bottom: 28px;
+  }
+  .accent { color: var(--amber); }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 460px;
+    line-height: 1.75;
+    margin-bottom: 44px;
+  }
+
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 72px;
+  }
+  .stat-num {
+    font-family: var(--font-head);
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* RECENT */
+  .recent {
+    padding: 80px 5%;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+  .section-head .eyebrow { margin-bottom: 0; }
+  .see-all {
+    font-family: var(--font-head);
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .see-all:hover { color: var(--amber); }
+
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+
+  .post-card {
+    background: var(--bg-card);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: background 0.2s;
+  }
+  .post-card:hover { background: var(--bg-hover); }
+
+  .post-card h3 {
+    font-family: var(--font-head);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .post-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+    flex: 1;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+    margin-top: auto;
+  }
+  .card-author {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--font-head);
+  }
+  .card-arrow {
+    color: var(--amber);
+    font-size: 16px;
+    transition: transform 0.2s;
+  }
+  .post-card:hover .card-arrow { transform: translateX(4px); }
+
+  /* ABOUT STRIP */
+  .about-strip { padding: 80px 5%; }
+
+  .about-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 80px;
+    align-items: center;
+  }
+
+  h2 {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .about-inner p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.75;
+    max-width: 440px;
+  }
+
+  .team-cards { display: flex; flex-direction: column; gap: 16px; }
+  .team-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 20px 24px;
+    min-width: 220px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--amber-dim), var(--amber));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-head);
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+    flex-shrink: 0;
+  }
+  .member-name {
+    font-family: var(--font-head);
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .member-role {
+    font-family: var(--font-head);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  @media (max-width: 768px) {
+    .about-inner { grid-template-columns: 1fr; gap: 40px; }
+    .hero-stats { gap: 32px; }
+  }
+</style>

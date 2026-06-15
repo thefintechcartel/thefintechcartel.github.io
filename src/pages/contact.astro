@@ -1,0 +1,204 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Contact" description="Get in touch with The Fintech Cartel.">
+  <div class="contact-wrapper">
+
+    <div class="contact-header">
+      <div class="eyebrow">Contact</div>
+      <h1>Get in Touch</h1>
+      <p>Ideas, collabs, feedback, or just want to argue about interest rates — we're here for it.</p>
+    </div>
+
+    <div class="contact-inner">
+      <div class="contact-links">
+        <a class="contact-link" href="https://instagram.com/thefintechcartel" target="_blank" rel="noopener">
+          <div class="link-icon">ig</div>
+          <div>
+            <div class="link-label">Instagram</div>
+            <div class="link-val">@thefintechcartel</div>
+          </div>
+        </a>
+        <a class="contact-link" href="mailto:thefintechcartel@gmail.com">
+          <div class="link-icon">✉</div>
+          <div>
+            <div class="link-label">Email</div>
+            <div class="link-val">thefintechcartel@gmail.com</div>
+          </div>
+        </a>
+      </div>
+
+      <form class="contact-form" id="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" type="text" name="name" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="email" name="email" placeholder="your@email.com" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input id="subject" type="text" name="subject" placeholder="Collab, feedback, question..." />
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="What's on your mind?" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn-primary" id="submit-btn">Send Message →</button>
+        <p class="form-note" id="form-note"></p>
+      </form>
+    </div>
+
+  </div>
+</Base>
+
+<style>
+  .contact-wrapper { padding: 64px 5% 80px; }
+
+  .contact-header {
+    margin-bottom: 64px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  h1 {
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .contact-header p {
+    font-size: 16px;
+    color: var(--muted);
+  }
+
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--rule);
+    transition: opacity 0.2s;
+  }
+  .contact-link:hover { opacity: 0.7; }
+
+  .link-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-head);
+    font-size: 13px;
+    color: var(--amber);
+    flex-shrink: 0;
+  }
+
+  .link-label {
+    font-family: var(--font-head);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3px;
+  }
+  .link-val {
+    font-family: var(--font-head);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  /* FORM */
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  label {
+    font-family: var(--font-head);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  input, textarea {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 13px 16px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    resize: vertical;
+  }
+  input:focus, textarea:focus { border-color: var(--amber-dim); }
+  input::placeholder, textarea::placeholder { color: var(--muted); opacity: 0.5; }
+
+  .form-note {
+    font-size: 13px;
+    color: var(--muted);
+    min-height: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const btn  = document.getElementById('submit-btn') as HTMLButtonElement;
+  const note = document.getElementById('form-note') as HTMLParagraphElement;
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    btn.textContent = 'Sent ✓';
+    btn.style.background = '#4ade80';
+    note.textContent = "We got your message — we'll get back to you soon.";
+    setTimeout(() => {
+      btn.textContent = 'Send Message →';
+      btn.style.background = '';
+      note.textContent = '';
+      form.reset();
+    }, 4000);
+  });
+</script>

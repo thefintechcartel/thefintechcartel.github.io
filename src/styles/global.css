@@ -1,0 +1,147 @@
+/* ─── FONTS ─────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+/* ─── TOKENS ─────────────────────────────────────────────── */
+:root {
+  --bg:        #0a0a0f;
+  --bg-card:   #111118;
+  --bg-hover:  #17171f;
+  --text:      #e8e6e0;
+  --muted:     #6b6966;
+  --amber:     #f5a623;
+  --amber-dim: #c47d0e;
+  --rule:      #1e1e2a;
+
+  --font-head: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* ─── RESET ──────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* ─── TYPOGRAPHY ─────────────────────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: var(--font-head);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+/* ─── SHARED UTILITIES ───────────────────────────────────── */
+.eyebrow {
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.eyebrow::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--amber);
+  flex-shrink: 0;
+}
+
+.btn-primary {
+  display: inline-block;
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 13px 28px;
+  background: var(--amber);
+  color: #000;
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-primary:hover { background: #e8971a; }
+
+.btn-ghost {
+  display: inline-block;
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 13px 28px;
+  border: 1px solid var(--rule);
+  color: var(--muted);
+  border-radius: 2px;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-ghost:hover { border-color: var(--muted); color: var(--text); }
+
+.tag {
+  font-family: var(--font-head);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+.tag-finance { color: var(--amber); background: rgba(245,166,35,0.1); }
+.tag-tech    { color: #60a5fa;       background: rgba(96,165,250,0.1); }
+
+/* ─── PROSE (blog posts) ─────────────────────────────────── */
+.prose {
+  max-width: 680px;
+  font-size: 17px;
+  line-height: 1.8;
+  color: #ccc8c0;
+}
+.prose h2 { font-size: 26px; margin: 48px 0 16px; color: var(--text); }
+.prose h3 { font-size: 20px; margin: 36px 0 12px; color: var(--text); }
+.prose p  { margin-bottom: 20px; }
+.prose a  { color: var(--amber); text-decoration: underline; text-underline-offset: 3px; }
+.prose ul, .prose ol { padding-left: 24px; margin-bottom: 20px; }
+.prose li { margin-bottom: 8px; }
+.prose blockquote {
+  border-left: 3px solid var(--amber);
+  padding-left: 20px;
+  color: var(--muted);
+  font-style: italic;
+  margin: 28px 0;
+}
+.prose code {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  padding: 2px 7px;
+  border-radius: 3px;
+  color: var(--amber);
+}
+.prose pre {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 20px 24px;
+  overflow-x: auto;
+  margin-bottom: 24px;
+}
+.prose pre code { background: none; border: none; padding: 0; color: var(--text); }

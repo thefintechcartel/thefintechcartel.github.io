@@ -1,0 +1,228 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Add real videos here as objects once you start posting
+const videos: {
+  ep: string;
+  title: string;
+  description: string;
+  author: string;
+  url?: string; // YouTube/Instagram URL when live
+}[] = [
+  {
+    ep: 'EP. 01',
+    title: 'What Even Is Fintech? (And Why You Should Care)',
+    description: 'Our first episode — setting the stage for everything we\'re building here.',
+    author: 'Adyaan + You',
+  },
+  {
+    ep: 'EP. 02',
+    title: 'How Zerodha Disrupted Indian Broking',
+    description: 'From zero to 7 million users — the story of India\'s largest brokerage by volume.',
+    author: 'Adyaan',
+  },
+  {
+    ep: 'EP. 03',
+    title: 'Building Your First API — No CS Degree Required',
+    description: 'A jargon-free walkthrough of what APIs actually are and why they run modern finance.',
+    author: 'You',
+  },
+];
+---
+
+<Base title="Videos" description="Video breakdowns from The Fintech Cartel.">
+  <div class="videos-wrapper">
+
+    <div class="videos-header">
+      <div class="eyebrow">Videos</div>
+      <h1>Watch & Learn</h1>
+      <p>Market breakdowns, fintech explainers, and tech walkthroughs. Dropping on Instagram and right here.</p>
+      <a href="https://instagram.com/thefintechcartel" target="_blank" rel="noopener" class="ig-link">
+        Follow on Instagram →
+      </a>
+    </div>
+
+    <div class="video-grid">
+      {videos.map(v => (
+        <div class:list={['video-card', { clickable: !!v.url }]}
+             onClick={v.url ? `window.open('${v.url}', '_blank')` : undefined}
+        >
+          <div class="thumb">
+            <div class="play-btn">
+              <div class="play-icon"></div>
+            </div>
+            <span class="ep-label">{v.ep}</span>
+            {!v.url && <span class="soon-label">Soon</span>}
+          </div>
+          <div class="video-info">
+            <h2>{v.title}</h2>
+            <p>{v.description}</p>
+            <div class="video-meta">
+              <span class="v-author">{v.author}</span>
+              {v.url
+                ? <span class="watch-link">Watch →</span>
+                : <span class="coming">Coming soon</span>
+              }
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</Base>
+
+<style>
+  .videos-wrapper { padding: 64px 5% 80px; }
+
+  .videos-header {
+    margin-bottom: 56px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  h1 {
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .videos-header p {
+    font-size: 16px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .ig-link {
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--amber);
+    letter-spacing: 0.04em;
+    transition: opacity 0.2s;
+  }
+  .ig-link:hover { opacity: 0.7; }
+
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .video-card {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .video-card.clickable { cursor: pointer; }
+  .video-card:hover {
+    border-color: var(--amber-dim);
+    transform: translateY(-3px);
+  }
+
+  .thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #111118 0%, #1a1a2a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .play-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(245, 166, 35, 0.12);
+    border: 1px solid rgba(245, 166, 35, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .video-card:hover .play-btn { background: rgba(245, 166, 35, 0.25); }
+
+  .play-icon {
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 8px 0 8px 16px;
+    border-color: transparent transparent transparent var(--amber);
+    margin-left: 3px;
+  }
+
+  .ep-label {
+    position: absolute;
+    bottom: 10px; right: 10px;
+    font-family: var(--font-head);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    background: rgba(0,0,0,0.65);
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  .soon-label {
+    position: absolute;
+    top: 10px; left: 10px;
+    font-family: var(--font-head);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--amber);
+    background: rgba(245,166,35,0.1);
+    border: 1px solid rgba(245,166,35,0.2);
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  .video-info { padding: 22px 24px; }
+
+  h2 {
+    font-family: var(--font-head);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+    margin-bottom: 10px;
+  }
+
+  .video-info p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .video-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .v-author {
+    font-family: var(--font-head);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .watch-link {
+    font-family: var(--font-head);
+    font-size: 12px;
+    color: var(--amber);
+    font-weight: 600;
+  }
+
+  .coming {
+    font-family: var(--font-head);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+</style>

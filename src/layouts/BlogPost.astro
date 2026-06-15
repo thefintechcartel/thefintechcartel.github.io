@@ -1,0 +1,134 @@
+---
+import Base from './Base.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  author: string;
+  category: string;
+  tags: string[];
+}
+
+const { title, description, pubDate, author, category, tags } = Astro.props;
+
+const formatted = pubDate.toLocaleDateString('en-IN', {
+  year: 'numeric', month: 'long', day: 'numeric'
+});
+---
+
+<Base title={title} description={description}>
+  <article class="post-wrapper">
+    <header class="post-header">
+      <div class="post-meta-top">
+        <span class:list={['tag', category === 'Finance' ? 'tag-finance' : 'tag-tech']}>
+          {category}
+        </span>
+        <span class="post-date">{formatted}</span>
+      </div>
+
+      <h1>{title}</h1>
+      <p class="post-desc">{description}</p>
+
+      <div class="post-author">
+        <div class="author-avatar">{author[0]}</div>
+        <span>{author}</span>
+      </div>
+
+      <div class="post-tags">
+        {tags.map(t => <span class="inline-tag">#{t}</span>)}
+      </div>
+    </header>
+
+    <div class="prose">
+      <slot />
+    </div>
+
+    <div class="post-footer">
+      <a href="/blog" class="btn-ghost">← Back to Blog</a>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .post-wrapper {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 64px 5% 80px;
+  }
+
+  .post-header { margin-bottom: 56px; }
+
+  .post-meta-top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .post-date {
+    font-family: var(--font-head);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  h1 {
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.1;
+  }
+
+  .post-desc {
+    font-size: 18px;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 32px;
+  }
+
+  .post-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .author-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--amber-dim), var(--amber));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-head);
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
+    flex-shrink: 0;
+  }
+  .post-author span {
+    font-family: var(--font-head);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+  }
+  .inline-tag {
+    font-family: var(--font-head);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  .post-footer {
+    margin-top: 72px;
+    padding-top: 40px;
+    border-top: 1px solid var(--rule);
+  }
+</style>

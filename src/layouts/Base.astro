@@ -1,0 +1,71 @@
+---
+import Nav from '../components/Nav.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Sharp takes on fintech, markets, and tech from The Fintech Cartel.' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <title>{title} — The Fintech Cartel</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+  <Nav />
+  <main style="padding-top: 64px;">
+    <slot />
+  </main>
+  <footer>
+    <div class="footer-logo"><span class="bracket">[</span>TFC<span class="bracket">]</span></div>
+    <p>© {new Date().getFullYear()} The Fintech Cartel</p>
+    <ul class="footer-links">
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/videos">Videos</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </footer>
+</body>
+</html>
+
+<style>
+  footer {
+    padding: 36px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    border-top: 1px solid var(--rule);
+    margin-top: 80px;
+  }
+  .footer-logo {
+    font-family: var(--font-head);
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .bracket { color: var(--amber); }
+  footer p { font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--font-head);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--amber); }
+</style>
