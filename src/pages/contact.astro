@@ -5,42 +5,41 @@ import Base from '../layouts/Base.astro';
 <Base title="Contact" description="Get in touch with The Fintech Cartel.">
   <div class="contact-wrapper">
 
-    <header class="contact-header">
-      <div class="eyebrow">Contact</div>
-      <h1>Get in Touch</h1>
+    <div class="contact-header">
+      <div class="contact-label">// get in touch</div>
+      <h1>Contact</h1>
       <p>Ideas, collabs, feedback, or just want to argue about interest rates — we're here for it.</p>
-    </header>
+    </div>
 
-    <div class="contact-body">
-
+    <div class="contact-inner">
       <div class="contact-links">
         <a class="contact-link" href="https://instagram.com/thefintechcartel" target="_blank" rel="noopener">
           <div class="link-icon">ig</div>
-          <div class="link-text">
+          <div>
             <div class="link-label">Instagram</div>
             <div class="link-val">@thefintechcartel</div>
           </div>
-          <span class="link-arr" aria-hidden="true">→</span>
         </a>
         <a class="contact-link" href="mailto:thefintechcartel@gmail.com">
           <div class="link-icon">✉</div>
-          <div class="link-text">
+          <div>
             <div class="link-label">Email</div>
             <div class="link-val">thefintechcartel@gmail.com</div>
           </div>
-          <span class="link-arr" aria-hidden="true">→</span>
         </a>
       </div>
 
-      <form class="contact-form" id="contact-form" novalidate>
+      <form class="contact-form" action="https://formspree.io/f/xjgdlqez" method="POST">
+        <input type="hidden" name="_next" value="https://thefintechcartel.github.io/contact" />
+
         <div class="form-row">
           <div class="form-group">
             <label for="name">Name</label>
-            <input id="name" type="text" name="name" placeholder="Your name" required autocomplete="name" />
+            <input id="name" type="text" name="name" placeholder="Your name" required />
           </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <input id="email" type="email" name="email" placeholder="you@email.com" required autocomplete="email" />
+            <input id="email" type="email" name="email" placeholder="your@email.com" required />
           </div>
         </div>
         <div class="form-group">
@@ -51,122 +50,98 @@ import Base from '../layouts/Base.astro';
           <label for="message">Message</label>
           <textarea id="message" name="message" placeholder="What's on your mind?" rows="5" required></textarea>
         </div>
-        <div class="form-foot">
-          <button type="submit" class="btn-primary" id="submit-btn">Send Message →</button>
-          <p class="form-note" id="form-note"></p>
-        </div>
+        <button type="submit" class="btn-primary">Send Message →</button>
       </form>
-
     </div>
+
   </div>
 </Base>
 
 <style>
-  .contact-wrapper { padding: 64px 5% 80px; }
+  .contact-wrapper { padding: 64px 40px 80px; }
 
   .contact-header {
-    margin-bottom: 56px;
-    padding-bottom: 40px;
+    margin-bottom: 64px;
+    padding-bottom: 48px;
     border-bottom: 1px solid var(--rule);
   }
 
-  h1 {
-    font-size: clamp(40px, 6vw, 72px);
+  .contact-label {
+    font-size: 11px;
     font-weight: 700;
-    margin-bottom: 14px;
+    letter-spacing: 0.14em;
+    color: var(--green);
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
   }
 
   .contact-header p {
-    font-size: 15px;
+    font-size: 14px;
     color: var(--muted);
+    line-height: 1.8;
   }
 
-  .contact-body {
+  .contact-inner {
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 80px;
     align-items: start;
   }
 
-  /* Links */
-  .contact-links {
-    display: flex;
-    flex-direction: column;
-  }
+  .contact-links { display: flex; flex-direction: column; gap: 2px; }
 
   .contact-link {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
     padding: 20px 0;
     border-bottom: 1px solid var(--rule);
     transition: opacity 0.15s;
   }
-  .contact-link:hover { opacity: 0.65; }
-  .contact-link:hover .link-arr { transform: translateX(4px); color: var(--amber); }
+  .contact-link:hover { opacity: 0.6; }
 
   .link-icon {
-    width: 38px;
-    height: 38px;
+    width: 38px; height: 38px;
     border: 1px solid var(--rule);
-    border-radius: 1px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: var(--font-mono);
     font-size: 12px;
-    color: var(--amber);
+    color: var(--green);
     flex-shrink: 0;
   }
 
-  .link-text { flex: 1; }
-
   .link-label {
-    font-family: var(--font-mono);
-    font-size: 9px;
-    font-weight: 400;
+    font-size: 10px;
+    font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: 3px;
+    margin-bottom: 4px;
   }
+  .link-val { font-size: 13px; font-weight: 600; }
 
-  .link-val {
-    font-family: var(--font-display);
-    font-size: 13px;
-    font-weight: 500;
-  }
-
-  .link-arr {
-    color: var(--muted-mid);
-    font-size: 14px;
-    transition: transform 0.2s, color 0.15s;
-  }
-
-  /* Form */
-  .contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
+  /* FORM */
+  .contact-form { display: flex; flex-direction: column; gap: 20px; }
 
   .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px;
+    gap: 16px;
   }
 
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-  }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
 
   label {
-    font-family: var(--font-mono);
-    font-size: 9px;
-    font-weight: 400;
-    letter-spacing: 0.14em;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
   }
@@ -174,54 +149,21 @@ import Base from '../layouts/Base.astro';
   input, textarea {
     background: var(--bg-card);
     border: 1px solid var(--rule);
-    border-radius: 1px;
     padding: 12px 14px;
     color: var(--text);
-    font-family: var(--font-body);
-    font-size: 14px;
+    font-family: var(--font);
+    font-size: 13px;
     outline: none;
     transition: border-color 0.15s;
     width: 100%;
     resize: vertical;
   }
-  input:focus, textarea:focus { border-color: var(--amber-dim); }
-  input::placeholder, textarea::placeholder { color: var(--muted); opacity: 0.45; }
-
-  .form-foot {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .form-note {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.04em;
-  }
+  input:focus, textarea:focus { border-color: var(--green); }
+  input::placeholder, textarea::placeholder { color: var(--muted); opacity: 0.5; }
 
   @media (max-width: 768px) {
-    .contact-body { grid-template-columns: 1fr; gap: 48px; }
+    .contact-wrapper { padding: 48px 24px 60px; }
+    .contact-inner { grid-template-columns: 1fr; gap: 48px; }
     .form-row { grid-template-columns: 1fr; }
-    .form-foot { flex-direction: column; align-items: flex-start; }
   }
 </style>
-
-<script>
-  const form = document.getElementById('contact-form') as HTMLFormElement;
-  const btn  = document.getElementById('submit-btn') as HTMLButtonElement;
-  const note = document.getElementById('form-note') as HTMLParagraphElement;
-
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    btn.textContent = 'Sent ✓';
-    btn.style.background = '#4ade80';
-    note.textContent = "Got it — we'll get back to you.";
-    setTimeout(() => {
-      btn.textContent = 'Send Message →';
-      btn.style.background = '';
-      note.textContent = '';
-      form.reset();
-    }, 4000);
-  });
-</script>
