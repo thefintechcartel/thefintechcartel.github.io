@@ -29,13 +29,11 @@ const { pathname } = Astro.url;
 
   <a href="/contact" class="nav-cta">Get in Touch</a>
 
-  <!-- Mobile hamburger -->
   <button class="hamburger" id="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
-<!-- Mobile menu -->
 <div class="mobile-menu" id="mobile-menu">
   {links.map(l => (
     <a href={l.href} class="mobile-link">{l.label}</a>
@@ -51,51 +49,49 @@ const { pathname } = Astro.url;
     align-items: center;
     justify-content: space-between;
     padding: 0 5%;
-    height: 64px;
-    background: rgba(10, 10, 15, 0.9);
-    backdrop-filter: blur(16px);
+    height: 60px;
+    background: rgba(8, 8, 16, 0.92);
+    backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--rule);
   }
 
   .nav-logo {
-    font-family: var(--font-head);
+    font-family: var(--font-display);
     font-weight: 700;
-    font-size: 17px;
-    letter-spacing: -0.02em;
+    font-size: 16px;
+    letter-spacing: 0.02em;
   }
   .bracket { color: var(--amber); font-weight: 300; }
 
   .nav-links {
     display: flex;
-    gap: 36px;
+    gap: 32px;
     list-style: none;
   }
 
   .nav-link {
-    font-family: var(--font-head);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.06em;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
-    transition: color 0.2s;
+    transition: color 0.15s;
   }
-  .nav-link:hover, .nav-link.active { color: var(--text); }
-  .nav-link.active {
-    color: var(--amber);
-  }
+  .nav-link:hover { color: var(--text); }
+  .nav-link.active { color: var(--amber); }
 
   .nav-cta {
-    font-family: var(--font-head);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    padding: 8px 20px;
+    padding: 8px 18px;
     border: 1px solid var(--amber);
     color: var(--amber);
-    border-radius: 2px;
-    transition: background 0.2s, color 0.2s;
+    border-radius: 1px;
+    transition: background 0.15s, color 0.15s;
   }
   .nav-cta:hover { background: var(--amber); color: #000; }
 
@@ -110,8 +106,8 @@ const { pathname } = Astro.url;
   }
   .hamburger span {
     display: block;
-    width: 22px;
-    height: 1.5px;
+    width: 20px;
+    height: 1px;
     background: var(--text);
     transition: opacity 0.2s;
   }
@@ -119,7 +115,7 @@ const { pathname } = Astro.url;
   .mobile-menu {
     display: none;
     position: fixed;
-    top: 64px; left: 0; right: 0;
+    top: 60px; left: 0; right: 0;
     background: var(--bg-card);
     border-bottom: 1px solid var(--rule);
     flex-direction: column;
@@ -128,15 +124,15 @@ const { pathname } = Astro.url;
   .mobile-menu.open { display: flex; }
 
   .mobile-link {
-    font-family: var(--font-head);
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
     padding: 18px 5%;
     border-bottom: 1px solid var(--rule);
-    transition: color 0.2s;
+    transition: color 0.15s;
   }
   .mobile-link:hover { color: var(--text); }
 

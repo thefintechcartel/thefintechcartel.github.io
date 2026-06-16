@@ -5,39 +5,42 @@ import Base from '../layouts/Base.astro';
 <Base title="Contact" description="Get in touch with The Fintech Cartel.">
   <div class="contact-wrapper">
 
-    <div class="contact-header">
+    <header class="contact-header">
       <div class="eyebrow">Contact</div>
       <h1>Get in Touch</h1>
       <p>Ideas, collabs, feedback, or just want to argue about interest rates — we're here for it.</p>
-    </div>
+    </header>
 
-    <div class="contact-inner">
+    <div class="contact-body">
+
       <div class="contact-links">
         <a class="contact-link" href="https://instagram.com/thefintechcartel" target="_blank" rel="noopener">
           <div class="link-icon">ig</div>
-          <div>
+          <div class="link-text">
             <div class="link-label">Instagram</div>
             <div class="link-val">@thefintechcartel</div>
           </div>
+          <span class="link-arr" aria-hidden="true">→</span>
         </a>
         <a class="contact-link" href="mailto:thefintechcartel@gmail.com">
           <div class="link-icon">✉</div>
-          <div>
+          <div class="link-text">
             <div class="link-label">Email</div>
             <div class="link-val">thefintechcartel@gmail.com</div>
           </div>
+          <span class="link-arr" aria-hidden="true">→</span>
         </a>
       </div>
 
-      <form class="contact-form" id="contact-form">
+      <form class="contact-form" id="contact-form" novalidate>
         <div class="form-row">
           <div class="form-group">
             <label for="name">Name</label>
-            <input id="name" type="text" name="name" placeholder="Your name" required />
+            <input id="name" type="text" name="name" placeholder="Your name" required autocomplete="name" />
           </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <input id="email" type="email" name="email" placeholder="your@email.com" required />
+            <input id="email" type="email" name="email" placeholder="you@email.com" required autocomplete="email" />
           </div>
         </div>
         <div class="form-group">
@@ -48,11 +51,13 @@ import Base from '../layouts/Base.astro';
           <label for="message">Message</label>
           <textarea id="message" name="message" placeholder="What's on your mind?" rows="5" required></textarea>
         </div>
-        <button type="submit" class="btn-primary" id="submit-btn">Send Message →</button>
-        <p class="form-note" id="form-note"></p>
+        <div class="form-foot">
+          <button type="submit" class="btn-primary" id="submit-btn">Send Message →</button>
+          <p class="form-note" id="form-note"></p>
+        </div>
       </form>
-    </div>
 
+    </div>
   </div>
 </Base>
 
@@ -60,98 +65,108 @@ import Base from '../layouts/Base.astro';
   .contact-wrapper { padding: 64px 5% 80px; }
 
   .contact-header {
-    margin-bottom: 64px;
-    padding-bottom: 48px;
+    margin-bottom: 56px;
+    padding-bottom: 40px;
     border-bottom: 1px solid var(--rule);
   }
 
   h1 {
-    font-size: clamp(36px, 5vw, 64px);
+    font-size: clamp(40px, 6vw, 72px);
     font-weight: 700;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
 
   .contact-header p {
-    font-size: 16px;
+    font-size: 15px;
     color: var(--muted);
   }
 
-  .contact-inner {
+  .contact-body {
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 80px;
     align-items: start;
   }
 
+  /* Links */
   .contact-links {
     display: flex;
     flex-direction: column;
-    gap: 2px;
   }
 
   .contact-link {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
     padding: 20px 0;
     border-bottom: 1px solid var(--rule);
-    transition: opacity 0.2s;
+    transition: opacity 0.15s;
   }
-  .contact-link:hover { opacity: 0.7; }
+  .contact-link:hover { opacity: 0.65; }
+  .contact-link:hover .link-arr { transform: translateX(4px); color: var(--amber); }
 
   .link-icon {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     border: 1px solid var(--rule);
-    border-radius: 2px;
+    border-radius: 1px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: var(--font-head);
-    font-size: 13px;
+    font-family: var(--font-mono);
+    font-size: 12px;
     color: var(--amber);
     flex-shrink: 0;
   }
 
+  .link-text { flex: 1; }
+
   .link-label {
-    font-family: var(--font-head);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
     margin-bottom: 3px;
   }
+
   .link-val {
-    font-family: var(--font-head);
-    font-size: 14px;
+    font-family: var(--font-display);
+    font-size: 13px;
     font-weight: 500;
   }
 
-  /* FORM */
+  .link-arr {
+    color: var(--muted-mid);
+    font-size: 14px;
+    transition: transform 0.2s, color 0.15s;
+  }
+
+  /* Form */
   .contact-form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 18px;
   }
 
   .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 14px;
   }
 
   .form-group {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 7px;
   }
 
   label {
-    font-family: var(--font-head);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--muted);
   }
@@ -159,28 +174,36 @@ import Base from '../layouts/Base.astro';
   input, textarea {
     background: var(--bg-card);
     border: 1px solid var(--rule);
-    border-radius: 2px;
-    padding: 13px 16px;
+    border-radius: 1px;
+    padding: 12px 14px;
     color: var(--text);
     font-family: var(--font-body);
     font-size: 14px;
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color 0.15s;
     width: 100%;
     resize: vertical;
   }
   input:focus, textarea:focus { border-color: var(--amber-dim); }
-  input::placeholder, textarea::placeholder { color: var(--muted); opacity: 0.5; }
+  input::placeholder, textarea::placeholder { color: var(--muted); opacity: 0.45; }
+
+  .form-foot {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
 
   .form-note {
-    font-size: 13px;
+    font-family: var(--font-mono);
+    font-size: 11px;
     color: var(--muted);
-    min-height: 20px;
+    letter-spacing: 0.04em;
   }
 
   @media (max-width: 768px) {
-    .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+    .contact-body { grid-template-columns: 1fr; gap: 48px; }
     .form-row { grid-template-columns: 1fr; }
+    .form-foot { flex-direction: column; align-items: flex-start; }
   }
 </style>
 
@@ -193,7 +216,7 @@ import Base from '../layouts/Base.astro';
     e.preventDefault();
     btn.textContent = 'Sent ✓';
     btn.style.background = '#4ade80';
-    note.textContent = "We got your message — we'll get back to you soon.";
+    note.textContent = "Got it — we'll get back to you.";
     setTimeout(() => {
       btn.textContent = 'Send Message →';
       btn.style.background = '';

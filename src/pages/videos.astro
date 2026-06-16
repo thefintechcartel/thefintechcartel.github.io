@@ -1,31 +1,30 @@
 ---
 import Base from '../layouts/Base.astro';
 
-// Add real videos here as objects once you start posting
 const videos: {
   ep: string;
   title: string;
   description: string;
   author: string;
-  url?: string; // YouTube/Instagram URL when live
+  url?: string;
 }[] = [
   {
-    ep: 'EP. 01',
+    ep: '01',
     title: 'What Even Is Fintech? (And Why You Should Care)',
     description: 'Our first episode — setting the stage for everything we\'re building here.',
-    author: 'Adyaan + You',
+    author: 'Adyaan + Advik',
   },
   {
-    ep: 'EP. 02',
+    ep: '02',
     title: 'How Zerodha Disrupted Indian Broking',
     description: 'From zero to 7 million users — the story of India\'s largest brokerage by volume.',
     author: 'Adyaan',
   },
   {
-    ep: 'EP. 03',
+    ep: '03',
     title: 'Building Your First API — No CS Degree Required',
     description: 'A jargon-free walkthrough of what APIs actually are and why they run modern finance.',
-    author: 'You',
+    author: 'Advik',
   },
 ];
 ---
@@ -33,38 +32,50 @@ const videos: {
 <Base title="Videos" description="Video breakdowns from The Fintech Cartel.">
   <div class="videos-wrapper">
 
-    <div class="videos-header">
+    <header class="videos-header">
       <div class="eyebrow">Videos</div>
       <h1>Watch & Learn</h1>
       <p>Market breakdowns, fintech explainers, and tech walkthroughs. Dropping on Instagram and right here.</p>
       <a href="https://instagram.com/thefintechcartel" target="_blank" rel="noopener" class="ig-link">
-        Follow on Instagram →
+        @thefintechcartel →
       </a>
-    </div>
+    </header>
 
-    <div class="video-grid">
-      {videos.map(v => (
-        <div class:list={['video-card', { clickable: !!v.url }]}
-             onClick={v.url ? `window.open('${v.url}', '_blank')` : undefined}
+    <div class="video-list">
+      {videos.map((v, i) => (
+        <div
+          class:list={['video-row', { 'video-row--live': !!v.url }]}
+          role={v.url ? 'link' : undefined}
+          onClick={v.url ? `window.open('${v.url}', '_blank')` : undefined}
+          style={v.url ? 'cursor:pointer' : ''}
         >
-          <div class="thumb">
-            <div class="play-btn">
-              <div class="play-icon"></div>
-            </div>
-            <span class="ep-label">{v.ep}</span>
-            {!v.url && <span class="soon-label">Soon</span>}
+          <div class="ep-col">
+            <span class="ep-num">{v.ep}</span>
+            {!v.url && <span class="ep-dot ep-dot--soon"></span>}
+            {!!v.url && <span class="ep-dot ep-dot--live"></span>}
           </div>
+
+          <div class="thumb-col">
+            <div class="thumb">
+              <div class="play-btn">
+                <div class="play-icon"></div>
+              </div>
+            </div>
+          </div>
+
           <div class="video-info">
             <h2>{v.title}</h2>
             <p>{v.description}</p>
             <div class="video-meta">
               <span class="v-author">{v.author}</span>
               {v.url
-                ? <span class="watch-link">Watch →</span>
-                : <span class="coming">Coming soon</span>
+                ? <span class="watch-link">Watch now →</span>
+                : <span class="coming-soon">Coming soon</span>
               }
             </div>
           </div>
+
+          <div class="video-arrow" aria-hidden="true">→</div>
         </div>
       ))}
     </div>
@@ -76,153 +87,178 @@ const videos: {
   .videos-wrapper { padding: 64px 5% 80px; }
 
   .videos-header {
-    margin-bottom: 56px;
-    padding-bottom: 48px;
+    margin-bottom: 48px;
+    padding-bottom: 40px;
     border-bottom: 1px solid var(--rule);
   }
 
   h1 {
-    font-size: clamp(36px, 5vw, 64px);
+    font-size: clamp(40px, 6vw, 72px);
     font-weight: 700;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
 
   .videos-header p {
-    font-size: 16px;
+    font-size: 15px;
     color: var(--muted);
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
 
   .ig-link {
-    font-family: var(--font-head);
-    font-size: 13px;
-    font-weight: 500;
+    font-family: var(--font-mono);
+    font-size: 11px;
     color: var(--amber);
-    letter-spacing: 0.04em;
-    transition: opacity 0.2s;
+    letter-spacing: 0.06em;
+    transition: opacity 0.15s;
   }
-  .ig-link:hover { opacity: 0.7; }
+  .ig-link:hover { opacity: 0.6; }
 
-  .video-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
-  }
-
-  .video-card {
-    background: var(--bg-card);
+  /* List layout */
+  .video-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--rule);
     border: 1px solid var(--rule);
-    border-radius: 4px;
-    overflow: hidden;
-    transition: border-color 0.2s, transform 0.2s;
   }
-  .video-card.clickable { cursor: pointer; }
-  .video-card:hover {
-    border-color: var(--amber-dim);
-    transform: translateY(-3px);
+
+  .video-row {
+    display: grid;
+    grid-template-columns: 60px 160px 1fr 32px;
+    align-items: center;
+    gap: 24px;
+    background: var(--bg-card);
+    padding: 24px 28px;
+    transition: background 0.15s;
   }
+  .video-row:hover { background: var(--bg-hover); }
+  .video-row:hover .video-arrow { opacity: 1; transform: translateX(4px); color: var(--amber); }
+
+  .ep-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ep-num {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--muted-mid);
+    line-height: 1;
+  }
+
+  .ep-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .ep-dot--live { background: var(--amber); }
+  .ep-dot--soon { background: var(--muted-mid); }
+
+  .thumb-col { flex-shrink: 0; }
 
   .thumb {
     width: 100%;
     aspect-ratio: 16/9;
-    background: linear-gradient(135deg, #111118 0%, #1a1a2a 100%);
+    background: var(--bg-surface);
+    border: 1px solid var(--rule);
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    border-radius: 1px;
   }
 
   .play-btn {
-    width: 50px;
-    height: 50px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background: rgba(245, 166, 35, 0.12);
-    border: 1px solid rgba(245, 166, 35, 0.35);
+    border: 1px solid rgba(245,166,35,0.25);
+    background: rgba(245,166,35,0.06);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s;
+    transition: background 0.15s;
   }
-  .video-card:hover .play-btn { background: rgba(245, 166, 35, 0.25); }
+  .video-row:hover .play-btn { background: rgba(245,166,35,0.15); }
 
   .play-icon {
-    width: 0; height: 0;
+    width: 0;
+    height: 0;
     border-style: solid;
-    border-width: 8px 0 8px 16px;
+    border-width: 5px 0 5px 10px;
     border-color: transparent transparent transparent var(--amber);
-    margin-left: 3px;
+    margin-left: 2px;
   }
 
-  .ep-label {
-    position: absolute;
-    bottom: 10px; right: 10px;
-    font-family: var(--font-head);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    color: var(--text);
-    background: rgba(0,0,0,0.65);
-    padding: 3px 8px;
-    border-radius: 2px;
-  }
-
-  .soon-label {
-    position: absolute;
-    top: 10px; left: 10px;
-    font-family: var(--font-head);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    color: var(--amber);
-    background: rgba(245,166,35,0.1);
-    border: 1px solid rgba(245,166,35,0.2);
-    padding: 3px 8px;
-    border-radius: 2px;
-  }
-
-  .video-info { padding: 22px 24px; }
+  .video-info { min-width: 0; }
 
   h2 {
-    font-family: var(--font-head);
+    font-family: var(--font-display);
     font-size: 16px;
     font-weight: 600;
     letter-spacing: -0.01em;
-    line-height: 1.35;
-    margin-bottom: 10px;
+    line-height: 1.3;
+    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .video-info p {
     font-size: 13px;
     color: var(--muted);
-    line-height: 1.6;
-    margin-bottom: 16px;
+    line-height: 1.55;
+    margin-bottom: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .video-meta {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding-top: 14px;
-    border-top: 1px solid var(--rule);
+    gap: 16px;
   }
 
   .v-author {
-    font-family: var(--font-head);
-    font-size: 12px;
+    font-family: var(--font-mono);
+    font-size: 10px;
     color: var(--muted);
+    letter-spacing: 0.06em;
   }
 
   .watch-link {
-    font-family: var(--font-head);
-    font-size: 12px;
+    font-family: var(--font-mono);
+    font-size: 10px;
     color: var(--amber);
-    font-weight: 600;
+    letter-spacing: 0.06em;
   }
 
-  .coming {
-    font-family: var(--font-head);
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.06em;
+  .coming-soon {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted-mid);
+    letter-spacing: 0.08em;
+  }
+
+  .video-arrow {
+    color: var(--muted-mid);
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.15s, transform 0.2s, color 0.15s;
+    justify-self: end;
+  }
+
+  @media (max-width: 768px) {
+    .video-row {
+      grid-template-columns: 40px 1fr 24px;
+      gap: 16px;
+    }
+    .thumb-col { display: none; }
+    h2 { white-space: normal; }
+    .video-info p { white-space: normal; }
   }
 </style>

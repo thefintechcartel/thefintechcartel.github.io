@@ -5,38 +5,37 @@ import { getCollection } from 'astro:content';
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-// Group by category for filter tabs
 const categories = ['All', 'Finance', 'Tech'];
 ---
 
 <Base title="Blog" description="Finance and tech writing from The Fintech Cartel.">
   <div class="blog-wrapper">
 
-    <div class="blog-header">
+    <header class="blog-header">
       <div class="eyebrow">The Blog</div>
       <h1>From the Desk</h1>
-      <p>Finance deep-dives from Adyaan. Tech breakdowns from us. No fluff.</p>
-    </div>
+      <p>Finance deep-dives from Adyaan. Tech breakdowns from Advik. No fluff.</p>
 
-    <!-- Filter tabs (client-side JS below) -->
-    <div class="filter-tabs">
-      {categories.map(cat => (
-        <button class:list={['tab', { active: cat === 'All' }]} data-filter={cat}>
-          {cat}
-        </button>
-      ))}
-    </div>
+      <div class="filter-tabs">
+        {categories.map(cat => (
+          <button class:list={['tab', { active: cat === 'All' }]} data-filter={cat}>
+            {cat}
+          </button>
+        ))}
+      </div>
+    </header>
 
     {posts.length === 0 ? (
       <div class="empty">
+        <span class="empty-icon">◌</span>
         <p>Posts coming soon. Check back shortly.</p>
       </div>
     ) : (
       <div class="post-grid" id="post-grid">
-        {posts.map(post => (
+        {posts.map((post, i) => (
           <a
             href={`/blog/${post.id}`}
-            class="post-card"
+            class:list={['post-card', { 'post-card--wide': i === 0 }]}
             data-category={post.data.category}
           >
             <div class="card-top">
@@ -65,48 +64,54 @@ const categories = ['All', 'Finance', 'Tech'];
   .blog-wrapper { padding: 64px 5% 80px; }
 
   .blog-header {
-    margin-bottom: 56px;
-    padding-bottom: 48px;
+    margin-bottom: 48px;
+    padding-bottom: 40px;
     border-bottom: 1px solid var(--rule);
   }
 
   h1 {
-    font-size: clamp(36px, 5vw, 64px);
+    font-size: clamp(40px, 6vw, 72px);
     font-weight: 700;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
 
-  .blog-header p {
-    font-size: 16px;
+  .blog-header > p {
+    font-size: 15px;
     color: var(--muted);
+    margin-bottom: 32px;
   }
 
+  /* Filter tabs */
   .filter-tabs {
     display: flex;
     gap: 4px;
-    margin-bottom: 40px;
   }
 
   .tab {
-    font-family: var(--font-head);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    padding: 8px 20px;
+    padding: 8px 18px;
     background: none;
     border: 1px solid var(--rule);
     color: var(--muted);
-    border-radius: 2px;
+    border-radius: 1px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.15s;
   }
-  .tab:hover { color: var(--text); border-color: var(--muted); }
-  .tab.active { background: var(--amber); color: #000; border-color: var(--amber); }
+  .tab:hover { color: var(--text); border-color: var(--muted-mid); }
+  .tab.active {
+    background: var(--amber);
+    color: #000;
+    border-color: var(--amber);
+  }
 
+  /* Grid */
   .post-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1px;
     background: var(--rule);
     border: 1px solid var(--rule);
@@ -114,37 +119,43 @@ const categories = ['All', 'Finance', 'Tech'];
 
   .post-card {
     background: var(--bg-card);
-    padding: 36px;
+    padding: 32px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    transition: background 0.2s;
+    gap: 12px;
+    transition: background 0.15s;
   }
   .post-card:hover { background: var(--bg-hover); }
-  .post-card[style*="display: none"] { display: none !important; }
+  .post-card:hover .card-arrow { transform: translateX(4px); }
+  .post-card--wide {
+    grid-column: span 2;
+  }
 
   .card-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
+
   .card-date {
-    font-family: var(--font-head);
-    font-size: 11px;
+    font-family: var(--font-mono);
+    font-size: 10px;
     color: var(--muted);
     letter-spacing: 0.04em;
   }
 
   h2 {
-    font-family: var(--font-head);
-    font-size: 19px;
+    font-family: var(--font-display);
+    font-size: 17px;
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
     line-height: 1.3;
   }
 
+  .post-card--wide h2 { font-size: 22px; }
+
   .post-card p {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--muted);
     line-height: 1.65;
     flex: 1;
@@ -154,47 +165,68 @@ const categories = ['All', 'Finance', 'Tech'];
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 16px;
+    padding-top: 14px;
     border-top: 1px solid var(--rule);
     margin-top: auto;
   }
+
   .card-author {
-    font-size: 12px;
+    font-family: var(--font-mono);
+    font-size: 10px;
     color: var(--muted);
-    font-family: var(--font-head);
   }
+
   .card-arrow {
     color: var(--amber);
     transition: transform 0.2s;
   }
-  .post-card:hover .card-arrow { transform: translateX(4px); }
 
+  /* Empty */
   .empty {
-    padding: 80px 0;
+    padding: 100px 0;
     text-align: center;
     color: var(--muted);
-    font-family: var(--font-head);
-    font-size: 14px;
-    letter-spacing: 0.06em;
     border: 1px dashed var(--rule);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .empty-icon {
+    font-size: 32px;
+    opacity: 0.3;
+  }
+
+  .empty p {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+  }
+
+  @media (max-width: 900px) {
+    .post-grid { grid-template-columns: repeat(2, 1fr); }
+    .post-card--wide { grid-column: span 2; }
+  }
+
+  @media (max-width: 600px) {
+    .post-grid { grid-template-columns: 1fr; }
+    .post-card--wide { grid-column: span 1; }
   }
 </style>
 
 <script>
-  // Category filter
   const tabs = document.querySelectorAll<HTMLButtonElement>('.tab');
   const cards = document.querySelectorAll<HTMLElement>('.post-card');
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
       const filter = tab.dataset.filter;
-
       tabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
-
       cards.forEach(card => {
-        const match = filter === 'All' || card.dataset.category === filter;
-        card.style.display = match ? '' : 'none';
+        const show = filter === 'All' || card.dataset.category === filter;
+        card.style.display = show ? '' : 'none';
       });
     });
   });
